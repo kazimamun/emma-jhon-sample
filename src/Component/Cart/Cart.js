@@ -6,7 +6,7 @@ const Cart = (props) => {
     let totalPrice = 0;
     for(let i = 0; i<cart.length; i++){
         const product = cart[i];
-        totalPrice = totalPrice + product.price;
+        totalPrice = totalPrice + (product.price * product.quantity);
     }
  
     let shipping = 0;
@@ -19,14 +19,21 @@ const Cart = (props) => {
     }
     const tax = (totalPrice / 10).toFixed(2);
     const grandTotal = (totalPrice + shipping + Number(tax)).toFixed(2);
+
+    const formatNumber = num => {
+        const precision = num.toFixed(2);
+        return Number(precision);
+    }
     return (
         <div>
             <h4>Order Summary</h4>
             <p>Items Ordered: {cart.length}</p>
-            <p>Product Price: {totalPrice}</p>
+            <p>Product Price: {formatNumber(totalPrice)}</p>
             <p><small>Shipping Cost: {shipping}</small></p>
             <p><small>Tax: {tax}</small></p>
             <p>Total Price: {grandTotal}</p>
+            <br/>
+            { props.children }
         </div>
     );
 };
